@@ -4,22 +4,21 @@ defmodule OpenFootyBase.RoundController do
 
   alias OpenFootyBase.Season
   alias OpenFootyBase.Round
+  alias OpenFootyBase.Match
 
   def index(conn, _params) do
     rounds = Repo.all(Round)
     render(conn, "index.json-api", rounds: rounds)
   end
 
-  def create(conn, %{"data" => %{ "attributes" => round_params }, "season_id" => season_id }) do
-    season = Repo.get!(Season, season_id)
+  def create(conn, %{"data" => %{ "attributes" => round_params } }) do
     changeset = Round.changeset(%Round{}, round_params)
-    changeset = Ecto.Changeset.put_assoc(changeset, :season, season)
 
     case Repo.insert(changeset) do
       {:ok, round} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", season_round_path(conn, :show, season_id, round))
+        |> put_resp_header("location", round_path(conn, :show, round))
         |> render("show.json-api", round: round)
       {:error, changeset} ->
         conn
@@ -29,7 +28,9 @@ defmodule OpenFootyBase.RoundController do
   end
 
   def show(conn, %{"id" => id}) do
-    round = Repo.get!(Round, id) |> Repo.preload([:matches])
+    round = Repo.get!(Round, id) 
+    |> Repo.preload matches: from(m in Match, order_by: m.starts_at)
+
     render(conn, "show.json-api", round: round)
   end
 
