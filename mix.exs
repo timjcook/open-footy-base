@@ -39,6 +39,7 @@ defmodule OpenFootyBase.Mixfile do
      {:gettext, "~> 0.11"},
      {:cors_plug, "~> 1.2"},
      {:ja_serializer, "~> 0.12.0"},
+     {:csv, "~> 2.0.0"},
      {:cowboy, "~> 1.0"}]
   end
 
