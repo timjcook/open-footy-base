@@ -1,0 +1,17 @@
+<h2>Upload fixture</h2>
+
+<%= form_for @conn, upload_fixture_path(@conn, :create), [as: :create_params, multipart: true], fn f -> %>
+  <div class='row'>
+    <label for='year'>Season</label>
+    <%= text_input f, :year, class: "year" %>
+  </div>
+
+  <div class='row'>
+    <label for='fixture'>Fixture</label>
+    <%= file_input f, :fixture_file, class: "form-control" %>
+  </div>
+
+  <div class='row'>
+    <%= submit "Submit", class: "button submit" %>
+  </div>
+<% end %>
