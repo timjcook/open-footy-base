@@ -38,7 +38,6 @@ defmodule OpenFootyBase.Endpoint do
     key: "_open_footy_base_key",
     signing_salt: "UiP7H4j8"
 
-  plug OpenFootyBase.Router
-
   plug CORSPlug, origin: ["http://localhost:4200"]
+  plug OpenFootyBase.Router
 end
